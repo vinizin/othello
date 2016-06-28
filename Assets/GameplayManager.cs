@@ -4,8 +4,11 @@ using System.Collections;
 public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager instance;
-    public int player = 1;
-
+    public int currentPlayer = 1;
+    public int depth = 1;
+    public bool useIa = false;
+    public Move nextAiMove;
+    public GameObject trash;
     void Awake()
     {
         instance = this;
@@ -18,17 +21,20 @@ public class GameplayManager : MonoBehaviour
 
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 100000))
+            if (Physics.Raycast(ray, out hit, 100000) && currentPlayer > 0)
             {
                 Debug.Log(hit.transform.gameObject.name);
                 if (hit.collider.gameObject.CompareTag("Slot"))
                 {
                     Slot slot = hit.transform.gameObject.GetComponent<Slot>();
-                    if (slot.CanPlay)
+                    if (slot.CanPlay(GetPlayerState(currentPlayer)))
                     {
-                        Debug.Log("JOGUEI?");
-                        slot.Play(player);
-                        player = -player;
+                        slot.Play(currentPlayer);
+                        if(Game.instance.originalBoard.CanPlay(-currentPlayer))
+                            currentPlayer = -currentPlayer;
+                        if (currentPlayer < 0)
+                            if(useIa)
+                                Invoke("JogaDiabo",2.0f);
                     }
 
                 }
@@ -37,8 +43,31 @@ public class GameplayManager : MonoBehaviour
         }
         
     }
+    void JogaDiabo()
+    {
+        Minimax.instance.MiniMax( Game.instance.originalBoard, depth, -1,true);
 
-    public Slot.SlotState GetPlayerState()
+        Invoke("ChangePlayer",0.5f);
+    }
+    void ChangePlayer()
+    {
+        if (Game.instance.originalBoard.CanPlay(-currentPlayer))
+            currentPlayer = -currentPlayer;
+        else
+            Invoke("JogaDiabo", 2.0f);
+
+    }
+    public Slot.SlotState GetCurrentPlayerState()
+    {
+        Slot.SlotState playerState;
+        if (currentPlayer > 0)
+            playerState = Slot.SlotState.white;
+        else
+            playerState = Slot.SlotState.black;
+        return playerState;
+
+    }
+    public Slot.SlotState GetPlayerState(int player)
     {
         Slot.SlotState playerState;
         if (player > 0)
@@ -46,8 +75,6 @@ public class GameplayManager : MonoBehaviour
         else
             playerState = Slot.SlotState.black;
         return playerState;
-
     }
-
 
 }

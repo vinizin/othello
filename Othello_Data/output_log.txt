@@ -1,0 +1,30 @@
+Initialize engine version: 5.3.2f1 (e87ab445ead0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.0]
+    Renderer: NVIDIA GeForce GTX 260   (ID=0x5ea)
+    Vendor:   NVIDIA
+    VRAM:     1758 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: E:\othelloOp\Othello_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\othelloOp\Othello_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\othelloOp\Othello_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\othelloOp\Othello_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: E:\othelloOp\Othello_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading E:\othelloOp\Othello_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: E:\othelloOp\Othello_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading E:\othelloOp\Othello_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.222 seconds
+Platform assembly: E:\othelloOp\Othello_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: E:\othelloOp\Othello_Data\Managed\System.dll (this message is harmless)
+desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.890776 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 5cc -> priority: 1 
+Slot(Clone)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+

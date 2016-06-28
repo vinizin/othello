@@ -1,0 +1,1 @@
+E:\othelloOp\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache

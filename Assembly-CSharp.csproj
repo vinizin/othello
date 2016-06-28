@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{BE6CC2E7-3F09-3568-3313-057DDE970DD4}</ProjectGuid>
+    <ProjectGuid>{757F2496-3E51-572D-1C4B-038E8C3D487B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,9 +45,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CreateTable.cs" />
+     <Compile Include="Assets\Board.cs" />
+     <Compile Include="Assets\CameraController.cs" />
+     <Compile Include="Assets\DificultController.cs" />
+     <Compile Include="Assets\Game.cs" />
+     <Compile Include="Assets\GameOverController.cs" />
      <Compile Include="Assets\GameplayManager.cs" />
+     <Compile Include="Assets\Lixao.cs" />
+     <Compile Include="Assets\Minimax.cs" />
+     <Compile Include="Assets\PlayerScore.cs" />
      <Compile Include="Assets\Slot.cs" />
+     <Compile Include="Assets\Table.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity5.3/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

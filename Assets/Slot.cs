@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class Slot : MonoBehaviour
+[System.Serializable]
+public class Slot : MonoBehaviour, ICloneable
 {
     public Animator anim;
     public Slot up;
@@ -14,6 +15,18 @@ public class Slot : MonoBehaviour
     public Slot upLeft;
     public Slot downRight;
     public Slot downLeft;
+    public Board board;
+
+    public List<Slot> slotsToChangeLast = new List<Slot>();
+
+    public int value;
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+
+    }
+
     public enum SlotState
     {
         empty,
@@ -36,39 +49,40 @@ public class Slot : MonoBehaviour
     public SlotState state;
 
     public bool canPlay;
-    
-    public bool CanPlay
+    public ParticleSystem ps;
+
+    public bool CanPlay(Slot.SlotState playerColor)
     {
-        get
+        bool hasNeighbor = false;
+        if (up != null && up.state != SlotState.empty ||
+            down != null && down.state != SlotState.empty ||
+            right != null && right.state != SlotState.empty ||
+            upRight != null && upRight.state != SlotState.empty ||
+            downRight != null && downRight.state != SlotState.empty ||
+            upLeft!= null && upLeft.state != SlotState.empty ||
+            downLeft!= null && downLeft.state != SlotState.empty ||
+            left != null && left.state != SlotState.empty
+            ) hasNeighbor = true;
+
+        bool willScore = false;
+        var values = Enum.GetValues(typeof(Direction));
+
+        foreach (Direction d in values)
         {
-            bool hasNeighbor = false;
-            if (up != null && up.state != SlotState.empty ||
-                down != null && down.state != SlotState.empty ||
-                right != null && right.state != SlotState.empty ||
-                left != null && left.state != SlotState.empty
-                ) hasNeighbor = true;
-
-            bool willScore = false;
-            var values = Enum.GetValues(typeof(Direction));
-
-            foreach (Direction d in values)
+            if (CheckUpdateNeighbor(playerColor, d))
             {
-                if (CheckUpdateNeighbor(GameplayManager.instance.GetPlayerState(), d))
-                {
-                    willScore = true;
-                    break;
-                }
+                willScore = true;
+                break;
             }
-
-            return state == SlotState.empty && hasNeighbor && willScore;
-
         }
-        set { }
+
+        return state == SlotState.empty && hasNeighbor && willScore;
+
     }
 
     bool IsEnemy(Direction d)
     {
-        if (GetDirection(d).state != GameplayManager.instance.GetPlayerState())
+        if (GetDirection(d).state != GameplayManager.instance.GetCurrentPlayerState())
         {
             return true;
         }
@@ -83,10 +97,36 @@ public class Slot : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        canPlay = CanPlay;
-        anim.SetInteger("State", (int)state);
+        canPlay = CanPlay(GameplayManager.instance.GetCurrentPlayerState());
+        if (ps!=null)
+        {
+            if (canPlay)
+                ps.gameObject.SetActive(true);
+            else
+                ps.gameObject.SetActive(false);
+
+        }
+
+        if (anim != null && !board.isCopy)
+           anim.SetInteger("State", (int)state);
     }
 
+    public void PlayCoroutine(int player)
+    {
+        SlotState playerState;
+        if (player > 0)
+            playerState = SlotState.white;
+        else
+            playerState = SlotState.black;
+
+        state = playerState;
+
+        var values = Enum.GetValues(typeof(Direction));
+        foreach (Direction d in values)
+        {
+            StartCoroutine(UpdateNeighborCoroutine(state, d));
+        }
+    }
     public void Play(int player)
     {
         SlotState playerState;
@@ -100,7 +140,7 @@ public class Slot : MonoBehaviour
         var values = Enum.GetValues(typeof(Direction));
         foreach (Direction d in values)
         {
-           StartCoroutine( UpdateNeighbor(playerState, d));
+            UpdateNeighbor(state, d);
         }
     }
 
@@ -129,7 +169,7 @@ public class Slot : MonoBehaviour
         }
     }
 
-    public IEnumerator UpdateNeighbor(SlotState playerState,Direction dir)
+    public IEnumerator UpdateNeighborCoroutine(SlotState playerState, Direction dir)
     {
 
         Slot mainSlot = this;
@@ -151,6 +191,28 @@ public class Slot : MonoBehaviour
         }
 
     }
+    public void UpdateNeighbor(SlotState playerState, Direction dir)
+    {
+
+        Slot mainSlot = this;
+        List<Slot> slotsToChange = new List<Slot>();
+
+        while (mainSlot.GetDirection(dir) != null && mainSlot.GetDirection(dir).state != playerState && mainSlot.GetDirection(dir).state != SlotState.empty)
+        {
+            mainSlot = mainSlot.GetDirection(dir);
+            slotsToChange.Add(mainSlot);
+        }
+
+        if (mainSlot.GetDirection(dir) != null && mainSlot.GetDirection(dir).state == playerState)
+        {
+            foreach (Slot s in slotsToChange)
+            {
+                s.state = playerState;
+            }
+        }
+
+    }
+
 
     public bool CheckUpdateNeighbor(SlotState playerState, Direction dir)
     {
@@ -162,6 +224,7 @@ public class Slot : MonoBehaviour
             mainSlot = mainSlot.GetDirection(dir);
             slotsToChange.Add(mainSlot);
         }
+        slotsToChangeLast = slotsToChange;
 
         if (mainSlot.GetDirection(dir) != null && mainSlot.GetDirection(dir).state == playerState)
         {

@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{B67D3C36-33B9-A288-A835-AB80081EA229}") = "OthelloOp", "Assembly-CSharp.csproj", "{BE6CC2E7-3F09-3568-3313-057DDE970DD4}"
+Project("{3C2B6215-AA8B-9685-9689-C2AC7196086E}") = "othelloOp", "Assembly-CSharp.csproj", "{757F2496-3E51-572D-1C4B-038E8C3D487B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE6CC2E7-3F09-3568-3313-057DDE970DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE6CC2E7-3F09-3568-3313-057DDE970DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE6CC2E7-3F09-3568-3313-057DDE970DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE6CC2E7-3F09-3568-3313-057DDE970DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{757F2496-3E51-572D-1C4B-038E8C3D487B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{757F2496-3E51-572D-1C4B-038E8C3D487B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{757F2496-3E51-572D-1C4B-038E8C3D487B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{757F2496-3E51-572D-1C4B-038E8C3D487B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
